@@ -1,0 +1,11 @@
+{% extends 'home.html' %}
+{% block content %}
+<h2>Uploaded Files:</h2>
+<ul>
+{% for file in files %}
+    <li>{{ file.file.name }} (Uploaded at: {{ file.uploaded_at }})</li>
+{% empty %}
+    <li>No files uploaded yet.</li>
+{% endfor %}
+<p><a href="{% url 'home' %}">Return to Home</a></p>
+{% endblock %}
