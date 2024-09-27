@@ -1,1 +1,1 @@
-# pakt
+# pact
