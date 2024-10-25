@@ -38,8 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
-    'db_editor'
+    'db_editor',
+    'authorization',
+    'student_cabinet'
 ]
+
+AUTH_USER_MODEL = 'db_editor.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

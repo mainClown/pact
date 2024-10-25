@@ -1,7 +1,60 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+
+class CustomUserManager(BaseUserManager):
+    def create_user(self, login, password=None, **extra_fields):
+        """Создание и сохранение обычного пользователя"""
+        if not login:
+            raise ValueError('The Login field must be set')
+        user = self.model(login=login, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, login, password=None, **extra_fields):
+        """Создание и сохранение суперпользователя"""
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        return self.create_user(login, password, **extra_fields)
+
+class Rights(models.Model):
+    idrights = models.AutoField(primary_key=True)
+    rightsname = models.CharField(max_length=100, unique=True)
+
+    class Meta:
+        db_table = 'tblrights'
+
+    def __str__(self):
+        return self.rightsname
+    
+class User(AbstractBaseUser, PermissionsMixin):
+    iduser = models.AutoField(primary_key=True)
+    login = models.CharField(max_length=100, unique=True)
+    password = models.CharField(max_length=128)
+    lastname = models.CharField(max_length=100)
+    firstname = models.CharField(max_length=100)
+    middlename = models.CharField(max_length=100, null=True, blank=True)
+    birthdate = models.DateField(null=True, blank=True)
+    gender = models.BooleanField(null=True, blank=True)  # 0 или 1
+    idrights = models.ForeignKey(Rights, on_delete=models.CASCADE, default=1)
+
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+
+    objects = CustomUserManager()
+
+    USERNAME_FIELD = 'login'
+    REQUIRED_FIELDS = ['lastname', 'firstname']
+
+    class Meta:
+        db_table = 'tbluser'  
+
+    def __str__(self):
+        return self.login
 
 class AcademicYear(models.Model):
-    idayear = models.IntegerField(primary_key=True)
+    idayear = models.AutoField(primary_key=True) 
     title = models.CharField(max_length=10)
 
     class Meta:
@@ -108,16 +161,6 @@ class Reason(models.Model):
 
     def __str__(self):
         return self.reasonname
-
-class Rights(models.Model):
-    idrights = models.AutoField(primary_key=True)
-    rightsname = models.CharField(max_length=100, unique=True)
-
-    class Meta:
-        db_table = 'tblrights'
-
-    def __str__(self):
-        return self.rightsname
     
 class Sentence(models.Model):
     idsentence = models.AutoField(primary_key=True)
@@ -202,19 +245,6 @@ class Token(models.Model):
     def __str__(self):
         return f"Token {self.idtoken}: {self.tokentext}"
 
-class User(models.Model):
-    iduser = models.AutoField(primary_key=True)
-    login = models.CharField(max_length=100, unique=True)
-    password = models.CharField(max_length=128)
-    lastname = models.CharField(max_length=100)
-    firstname = models.CharField(max_length=100)
-    middlename = models.CharField(max_length=100, null=True, blank=True)
-    birthdate = models.DateField(null=True, blank=True)
-    gender = models.BooleanField(null=True, blank=True)  # 0 или 1
-    idrights = models.ForeignKey(Rights, on_delete=models.CASCADE, default=1)
-
-    class Meta:
-        db_table = 'tbluser'
 
 class WritePlace(models.Model):
     idwriteplace = models.AutoField(primary_key=True)
