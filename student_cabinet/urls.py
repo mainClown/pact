@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import view_academic_years
+from .views import academic_years
 
 urlpatterns = [
-    path('academic_years/', view_academic_years, name='view_academic_years'),
+    path('academic_years/', academic_years, name='academic_years'),
 ]

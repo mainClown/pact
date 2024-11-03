@@ -4,7 +4,7 @@ from db_editor.models import AcademicYear
 
 
 @login_required
-def view_academic_years(request):
+def academic_years(request):
     years = AcademicYear.objects.all()  
     return render(request, 'student_cabinet/academic_years.html', {'years': years})
 

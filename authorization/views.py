@@ -92,7 +92,7 @@ def login_student(request):
             if user and user.check_password(password_data):
                 login(request, user)
                 messages.success(request, 'Вы успешно вошли в систему как студент.')
-                return redirect('view_academic_years')  # Заменить
+                return redirect('academic_years')  # Заменить
             else:
                 messages.error(request, 'Неправильный логин или пароль.')
     else:
