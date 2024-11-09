@@ -4,24 +4,51 @@
     padding: 5px;
     margin: 2px;
     border-radius: 4px;
-    vertical-align: middle;  /* Сохранение выравнивания текста по центру */
+    border: 1px solid #ccc;  /* Рамка вокруг каждого токена */
+    margin-bottom: 40px;  /* Увеличенный отступ для тега сверху */
+    background-color: #f9f9f9;  /* Светлый фон для токена */
 }
 
-.token .postag {
+.pos {
+    background-color: #ccffcc;
+}
+
+.menu {
+    margin: 10px;
+}
+
+.sentence {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.postag-tagtext,
+.postag-tagtextrussian,
+.postag-tagtextabbrev {
     position: absolute;
-    bottom: 100%;  /* Тег будет располагаться над словом */
+    top: -20px;  /* Размещаем тег над токеном */
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    padding: 2px 5px;
     font-size: 12px;
+    padding: 2px;
+    background-color: rgba(240, 240, 240, 0.8);
     border-radius: 3px;
+    border: 1px solid #ddd;
+    visibility: hidden;
     white-space: nowrap;
-    display: none;  /* Теги скрыты по умолчанию */
-    z-index: 10;
+    line-height: normal;
 }
 
-.token:hover .postag {
-    display: block;  /* Показать тег при наведении мыши */
+.postag-tagtextrussian {
+    color: blue;
+}
+
+.postag-tagtextabbrev {
+    color: green;
+}
+
+.watch-text {
+    line-height: 2em;  /* Увеличенный интервал между строками */
 }
