@@ -37,7 +37,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     middlename = models.CharField(max_length=100, null=True, blank=True)
     birthdate = models.DateField(null=True, blank=True)
     gender = models.BooleanField(null=True, blank=True)  # 0 или 1
-    idrights = models.ForeignKey(Rights, on_delete=models.CASCADE, default=1)
+    idrights = models.ForeignKey(Rights, on_delete=models.CASCADE, db_column='idrights', default=1)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -231,15 +231,14 @@ class Token(models.Model):
     idtoken = models.AutoField(primary_key=True)
     tokentext = models.TextField()  # longtext соответствует TextField
     tokenordernumber = models.IntegerField()
-    idsentence = models.ForeignKey(Sentence, on_delete=models.CASCADE, related_name='tokens')
-    idpostag = models.ForeignKey(PosTag, on_delete=models.CASCADE, null=True, blank=True)
+    idsentence = models.ForeignKey(Sentence, on_delete=models.CASCADE, related_name='tokens', db_column='idsentence')  # Используем существующую колонку
+    idpostag = models.ForeignKey(PosTag, on_delete=models.CASCADE, null=True, blank=True, db_column='idpostag')  # Используем существующую колонку
 
     class Meta:
         db_table = 'tbltoken'
         indexes = [
             models.Index(fields=['idsentence']),
             models.Index(fields=['idpostag']),
-            # models.Index(fields=['tokentext']),
         ]
 
     def __str__(self):
@@ -265,4 +264,3 @@ class WriteTool(models.Model):
 
     def __str__(self):
         return self.writetoolname
-

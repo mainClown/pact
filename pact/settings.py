@@ -60,7 +60,10 @@ ROOT_URLCONF = 'pact.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'templates',  
+            BASE_DIR / 'text_app/templates/text_app',  
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
