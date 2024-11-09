@@ -4,24 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Разметка текста</title>
-    <style>
-        .token {
-            display: inline-block;
-            border: 1px solid black;
-            padding: 5px;
-            margin: 2px;
-            border-radius: 4px;
-        }
-        .pos {
-            background-color: #ccffcc;
-        }
-        .menu {
-            margin: 10px;
-        }
-        .sentence {
-            margin-bottom: 20px;
-        }
-    </style>
+    <link href="{%static 'css/text_markup.css' %}" rel="stylesheet" />
 </head>
 <body>
     <div class="menu">
@@ -45,7 +28,7 @@
                     <span class="token {% if token.idpostag %}pos{% endif %}">
                         {{ token.tokentext }}
                         {% if token.idpostag %}
-                            <span>({{ token.idpostag.tagtext }})</span>
+                            <span class="postag">({{ token.idpostag.tagtext }})</span>
                         {% endif %}
                     </span>
                 {% endfor %}

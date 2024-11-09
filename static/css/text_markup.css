@@ -1,0 +1,20 @@
+.token {
+    display: inline-block;
+    border: 1px solid black;
+    padding: 5px;
+    margin: 2px;
+    border-radius: 4px;
+}
+.pos {
+    background-color: #ccffcc;
+}
+.menu {
+    margin: 10px;
+}
+.sentence {
+    margin-bottom: 20px;
+}
+
+.postag {
+    visibility: hidden /* visible */
+}
