@@ -11,19 +11,22 @@ def show_text(request):
     # Получаем все части речи
     pos_tags = PosTag.objects.all()
     
-    # Параметры для выбора разметки
-    selected_markup = request.GET.get('markup', 'all')  # по умолчанию 'all', можно фильтровать по 'pos'
-    
-    # Фильтрация токенов по выбранной разметке
-    if selected_markup == 'pos':
-        tokens = tokens.filter(idpostag__isnull=False)
+    # Параметры для выбора разметки (по умолчанию 'tagtext', можно выбирать 'tagtextrussian' или 'tagtextabbrev')
+    selected_markup = request.GET.get('markup', 'tagtext')
     
     # Собираем токены и их данные в список для отображения
     token_data = []
     for token in tokens:
+        if selected_markup == 'tagtextrussian':
+            pos = token.idpostag.tagtextrussian if token.idpostag else None
+        elif selected_markup == 'tagtextabbrev':
+            pos = token.idpostag.tagtextabbrev if token.idpostag else None
+        else:
+            pos = token.idpostag.tagtext if token.idpostag else None
+
         token_info = {
             'token': token.tokentext,
-            'pos': token.idpostag.tagtext if token.idpostag else None,
+            'pos': pos,
         }
         token_data.append(token_info)
     

@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Разметка текста</title>
-    <link href="{%static 'css/text_markup.css' %}" rel="stylesheet" />
+    {% load static %}
+    <link href="{% static 'css/text_markup.css' %}" rel="stylesheet" />
 </head>
 <body>
     <div class="menu">
         <form method="get" action="">
             <label for="markup">Выберите разметку:</label>
-            <select name="markup" id="markup" onchange="this.form.submit()">
-                <option value="all" {% if selected_markup == 'all' %}selected{% endif %}>Все разметки</option>
-                <option value="pos" {% if selected_markup == 'pos' %}selected{% endif %}>Только части речи</option>
+            <select name="markup" id="markup" onchange="this.form.submit();">
+                <option value="tagtext" {% if selected_markup == 'tagtext' %}selected{% endif %}>Части речи (Основная)</option>
+                <option value="tagtextrussian" {% if selected_markup == 'tagtextrussian' %}selected{% endif %}>Части речи (На русском)</option>
+                <option value="tagtextabbrev" {% if selected_markup == 'tagtextabbrev' %}selected{% endif %}>Аббревиатуры части речи</option>
             </select>
         </form>
     </div>
@@ -20,22 +22,27 @@
     <h1>{{ text.header }}</h1>
     <p>{{ text.text }}</p>
     
-    <div>
+    <div class="watch-text">
         {% for sentence in text.sentence_set.all %}
             <div class="sentence">
                 <p><strong>Предложение {{ sentence.ordernumber }}:</strong></p>
                 {% for token in sentence.tokens.all %}
-                    <span class="token {% if token.idpostag %}pos{% endif %}">
+                    <span class="token">
                         {{ token.tokentext }}
-                        {% if token.idpostag %}
-                            <span class="postag-tagtext">({{ token.idpostag.tagtext }})</span>
-                            <span class="postag-tagtextrussian">({{ token.idpostag.tagtextrussian }})</span>
-                            <span class="postag-tagtextabbrev">({{ token.idpostag.tagtextabbrev }})</span>
+                        
+                        <!-- Tags for each token, displayed as tooltips above the token -->
+                        {% if selected_markup == 'tagtext' and token.idpostag %}
+                            <span class="postag">{{ token.idpostag.tagtext }}</span>
+                        {% elif selected_markup == 'tagtextrussian' and token.idpostag %}
+                            <span class="postag">{{ token.idpostag.tagtextrussian }}</span>
+                        {% elif selected_markup == 'tagtextabbrev' and token.idpostag %}
+                            <span class="postag">{{ token.idpostag.tagtextabbrev }}</span>
                         {% endif %}
                     </span>
                 {% endfor %}
             </div>
         {% endfor %}
     </div>
+
 </body>
 </html>
