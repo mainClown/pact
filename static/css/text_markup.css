@@ -15,6 +15,15 @@
     margin-bottom: 20px;
 }
 
-.postag {
+
+.postag-tagtext {
+    visibility: hidden /* visible */
+}
+
+.postag-tagtextabbrev {
+    visibility: hidden /* visible */
+}
+
+.postag-tagtextrussian {
     visibility: hidden /* visible */
 }

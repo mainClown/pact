@@ -28,7 +28,9 @@
                     <span class="token {% if token.idpostag %}pos{% endif %}">
                         {{ token.tokentext }}
                         {% if token.idpostag %}
-                            <span class="postag">({{ token.idpostag.tagtext }})</span>
+                            <span class="postag-tagtext">({{ token.idpostag.tagtext }})</span>
+                            <span class="postag-tagtextrussian">({{ token.idpostag.tagtextrussian }})</span>
+                            <span class="postag-tagtextabbrev">({{ token.idpostag.tagtextabbrev }})</span>
                         {% endif %}
                     </span>
                 {% endfor %}
