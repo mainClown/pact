@@ -25,13 +25,14 @@
             <div class="sentence">
                 <p><strong>Предложение {{ sentence.ordernumber }}:</strong></p>
                 {% for token in sentence.tokens.all %}
-                    <span class="token {% if token.idpostag %}pos{% endif %}">
+                    <span class="token {% if token.idpostag %}pos{% endif %}" postag-tagtext="{{ token.idpostag.tagtext }}" 
+                            postag-tagtextrussian="{{ token.idpostag.tagtextrussian }}" postag-tagtextabbrev="{{ token.idpostag.tagtextabbrev }}">
                         {{ token.tokentext }}
-                        {% if token.idpostag %}
+                        <!-- {% if token.idpostag %}
                             <span class="postag-tagtext">({{ token.idpostag.tagtext }})</span>
                             <span class="postag-tagtextrussian">({{ token.idpostag.tagtextrussian }})</span>
                             <span class="postag-tagtextabbrev">({{ token.idpostag.tagtextabbrev }})</span>
-                        {% endif %}
+                        {% endif %} -->
                     </span>
                 {% endfor %}
             </div>
