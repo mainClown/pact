@@ -71,7 +71,7 @@
     <div class="watch-text">
         {% for sentence in text.sentence_set.all %}
             <div class="sentence">
-                <p><strong>Предложение {{ forloop.counter }}:</strong></p>
+                <p><strong>{{ forloop.counter }}:</strong></p>
                 {% for token in sentence.tokens.all %}
                     <span class="token">
                         {{ token.tokentext }}
