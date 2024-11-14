@@ -18,7 +18,7 @@
 }
 
 .sentence {
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
@@ -49,6 +49,17 @@
     color: green;
 }
 
+.text-title {
+    margin: 1%;
+}
+
 .watch-text {
-    line-height: 2em;  /* Увеличенный интервал между строками */
+    margin: 1%;
+}
+
+.sentence-number {
+    display: inline-block;
+    position: relative;
+    padding: 5px;
+    margin: 2px;
 }
