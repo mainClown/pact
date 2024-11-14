@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'main',
     'db_editor',
     'authorization',
-    'student_cabinet'
+    'student_cabinet',
+    'text_app'
 ]
 
 AUTH_USER_MODEL = 'db_editor.User'
@@ -133,6 +134,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # Путь к общей папке static в корне проекта
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
