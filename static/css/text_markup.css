@@ -63,3 +63,30 @@
     padding: 5px;
     margin: 2px;
 }
+
+
+
+
+
+
+.token {
+    display: flex;                /* Используем flex для вертикального выравнивания содержимого */
+    flex-direction: column;       /* Ставим содержимое по вертикали */
+    align-items: center;          /* Центрируем содержимое */
+    padding: 5px;                 /* Отступы вокруг токена */
+    border: 1px solid #ccc;       /* Обводка токена */
+    border-radius: 4px;           /* Закругленные углы */
+    background-color: #f9f9f9;    /* Цвет фона токена */
+    margin-right: 4px;            /* Отступ между токенами */
+    font-size: 14px;              /* Размер шрифта для текста токена */
+    position: relative;
+    white-space: nowrap;          /* Запрещаем перенос на новую строку */
+}
+
+.token .abbr {
+    font-size: 0.8em;              /* Меньший размер шрифта для аббревиатуры */
+    color: #666;                   /* Цвет текста для аббревиатуры */
+    margin-top: 2px;               /* Отступ сверху для аббревиатуры (размещение под токеном) */
+    white-space: nowrap;           /* Запрещаем перенос на новую строку */
+    text-align: center;            /* Центрируем текст */
+}

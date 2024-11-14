@@ -66,6 +66,31 @@
             </div>
         {% endfor %}
     </div>
+
+
+    <div class="watch-text">
+        {% for sentence in text.sentence_set.all %}
+            <div class="sentence">
+                <p><strong>Предложение {{ forloop.counter }}:</strong></p>
+                {% for token in sentence.tokens.all %}
+                    <span class="token">
+                        {{ token.tokentext }}
+                        {% if token.idpostag %}
+                            <span class="abbr">
+                                {% if selected_markup == 'tagtext' and token.idpostag %}
+                                    {{ token.idpostag.tagtext }}
+                                {% elif selected_markup == 'tagtextrussian' and token.idpostag %}
+                                    {{ token.idpostag.tagtextrussian }}
+                                {% elif selected_markup == 'tagtextabbrev' and token.idpostag %}
+                                    {{ token.idpostag.tagtextabbrev }}
+                                {% endif %}
+                            </span>  <!-- Аббревиатура внутри токена -->
+                        {% endif %}
+                    </span>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
 </body>
 </html>
 
