@@ -9,45 +9,20 @@
     background-color: #f9f9f9;  
 } */
 
-.pos {
+/* .pos {
     background-color: #ccffcc;
-}
+} */
 
 .menu {
     margin: 10px;
 }
 
 .sentence {
-    /* margin-bottom: 20px; */
+    margin-bottom: 10px;
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
 }
 
-.postag-tagtext,
-.postag-tagtextrussian,
-.postag-tagtextabbrev {
-    position: absolute;
-    top: -20px;  /* Размещаем тег над токеном */
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 12px;
-    padding: 2px;
-    background-color: rgba(240, 240, 240, 0.8);
-    border-radius: 3px;
-    border: 1px solid #ddd;
-    visibility: hidden;
-    white-space: nowrap;
-    line-height: normal;
-}
-
-.postag-tagtextrussian {
-    color: blue;
-}
-
-.postag-tagtextabbrev {
-    color: green;
-}
 
 .text-title {
     margin: 1%;
@@ -61,41 +36,62 @@
     display: inline-block;
     position: relative;
     padding: 5px;
-    margin: 2px;
+    margin-right: 10px;
+    flex-shrink: 0;
+    color: gray;
+}
+
+.sentence {
+    display: flex; /* Используем Flexbox для родителя */
+    align-items: center; /* Центрируем элементы по вертикали */
+    margin-bottom: 10px; /* Отступ между предложениями */
+}
+
+.sentence-number {
+    margin-right: 10px; /* Отступ между номером и токенами */
+    flex-shrink: 0; /* Не позволяйте номеру сжиматься */
+}
+
+.tokens-container {
+    display: flex; /* Используем Flexbox для контейнера токенов */
+    flex-grow: 1; /* Позволяем контейнеру занимать все доступное пространство */
+    flex-wrap: wrap; /* Позволяем токенам переноситься по строчке */
 }
 
 .token {
     display: flex;               
     flex-direction: column;      
-    align-items: center;          
+    align-items: center;  
+    justify-content: center;        
     padding: 5px;                
-    /* border: 1px solid #ccc;       */
-    /* border-radius: 4px;            */
     margin-right: 4px;            
     font-size: 14px;             
     position: relative;
     white-space: nowrap;          /* Запрещаем перенос на новую строку */
 }
 
-.token .abbr {               
+.abbr {               
     margin-bottom: 2px;              
     white-space: nowrap;           /* Запрещаем перенос на новую строку */
     text-align: center;
     -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
             box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
     padding: 3px;
+    display: block;
 }
 
-.token .no-abbr {               
+.no-abbr {               
     margin-bottom: 2px;              
     padding: 3px;
 }
 
-.token .word {
+.word {
     margin: 2px; 
     padding: 6px;              
     white-space: nowrap;
     text-align: center;
     -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
             box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+
+    display: block;
 }

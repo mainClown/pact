@@ -27,12 +27,13 @@
     <div class="watch-text">
         {% for sentence in text.sentence_set.all %}
             <div class="sentence">
-                <p><strong>{{ forloop.counter }}:</strong></p>
+                <p class="sentence-number">{{ forloop.counter }}:</p>
+                <div class="tokens-container">
                 {% for token in sentence.tokens.all %}
                     <span class="token">
                         
                         {% if token.idpostag %}
-                            <span class="abbr">
+                            <span class="abbr" style="background-color: {{ token.idpostag.tagcolor }};">
                                 {% if selected_markup == 'tagtext' %}
                                     {{ token.idpostag.tagtext }}
                                 {% elif selected_markup == 'tagtextrussian' %}
@@ -49,8 +50,33 @@
 
                     </span>
                 {% endfor %}
+                </div>
             </div>
         {% endfor %}
     </div>
+
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const markupSelect = document.getElementById('markup');
+
+            function toggleAbbrVisibility() {
+                const abbrElements = document.querySelectorAll('.abbr');
+                if (markupSelect.value === 'plain') {
+                    abbrElements.forEach(el => el.style.display = 'none');
+                } else {
+                    abbrElements.forEach(el => el.style.display = 'inline-block');
+                }
+            }
+
+            // Вызвать функцию при загрузке страницы
+            toggleAbbrVisibility();
+
+            // Добавить слушатель для изменения значения в селекте
+            markupSelect.addEventListener('change', toggleAbbrVisibility);
+        });
+    </script>
+
+
 </body>
 </html>
