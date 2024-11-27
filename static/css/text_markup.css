@@ -86,6 +86,10 @@
     padding: 3px;
 }
 
+.token .no-abbr {               
+    margin-bottom: 2px;              
+    padding: 3px;
+}
 
 .token .word {
     margin: 2px; 

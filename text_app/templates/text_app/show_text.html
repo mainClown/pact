@@ -41,9 +41,8 @@
                                     {{ token.idpostag.tagtextabbrev }}
                                 {% endif %}
                             </span>
-                        {% else %}
-                            <!-- Пустой символ для токенов без части речи -->
-                            <span>&nbsp;</span>
+                        {% elif selected_markup != 'plain' %}
+                            <span class="no-abbr">&nbsp;</span> 
                         {% endif %}
 
                         <span class="word">{{ token.tokentext }}</span>
