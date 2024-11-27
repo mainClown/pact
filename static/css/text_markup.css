@@ -1,13 +1,13 @@
-.token {
+/* .token {
     display: inline-block;
     position: relative;
     padding: 5px;
     margin: 2px;
     border-radius: 4px;
-    border: 1px solid #ccc;  /* Рамка вокруг каждого токена */
-    margin-bottom: 40px;  /* Увеличенный отступ для тега сверху */
-    background-color: #f9f9f9;  /* Светлый фон для токена */
-}
+    border: 1px solid #ccc;  
+    margin-bottom: 40px;  
+    background-color: #f9f9f9;  
+} */
 
 .pos {
     background-color: #ccffcc;
@@ -64,29 +64,34 @@
     margin: 2px;
 }
 
-
-
-
-
-
 .token {
-    display: flex;                /* Используем flex для вертикального выравнивания содержимого */
-    flex-direction: column;       /* Ставим содержимое по вертикали */
-    align-items: center;          /* Центрируем содержимое */
-    padding: 5px;                 /* Отступы вокруг токена */
-    border: 1px solid #ccc;       /* Обводка токена */
-    border-radius: 4px;           /* Закругленные углы */
-    background-color: #f9f9f9;    /* Цвет фона токена */
-    margin-right: 4px;            /* Отступ между токенами */
-    font-size: 14px;              /* Размер шрифта для текста токена */
+    display: flex;               
+    flex-direction: column;      
+    align-items: center;          
+    padding: 5px;                
+    /* border: 1px solid #ccc;       */
+    /* border-radius: 4px;            */
+    margin-right: 4px;            
+    font-size: 14px;             
     position: relative;
     white-space: nowrap;          /* Запрещаем перенос на новую строку */
 }
 
-.token .abbr {
-    font-size: 0.8em;              /* Меньший размер шрифта для аббревиатуры */
-    color: #666;                   /* Цвет текста для аббревиатуры */
-    margin-top: 2px;               /* Отступ сверху для аббревиатуры (размещение под токеном) */
+.token .abbr {               
+    margin-bottom: 2px;              
     white-space: nowrap;           /* Запрещаем перенос на новую строку */
-    text-align: center;            /* Центрируем текст */
+    text-align: center;
+    -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+    padding: 3px;
+}
+
+
+.token .word {
+    margin: 2px; 
+    padding: 6px;              
+    white-space: nowrap;
+    text-align: center;
+    -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
 }

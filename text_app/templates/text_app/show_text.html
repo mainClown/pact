@@ -17,56 +17,12 @@
                 <option value="tagtext" {% if selected_markup == 'tagtext' %}selected{% endif %}>Части речи (Основная)</option>
                 <option value="tagtextrussian" {% if selected_markup == 'tagtextrussian' %}selected{% endif %}>Части речи (На русском)</option>
                 <option value="tagtextabbrev" {% if selected_markup == 'tagtextabbrev' %}selected{% endif %}>Аббревиатуры части речи</option>
+                <option value="plain" {% if selected_markup == 'plain' %}selected{% endif %}>Без разметки</option>
             </select>
         </form>
     </div>
     
     <h1 class="text-title">{{ text.header }}</h1>
-    <!-- <p>{{ text.text }}</p> --> 
-    <!-- <div class="watch-text">
-        {% for sentence in text.sentence_set.all %}
-            <div class="sentence">
-                <p><strong>{{ sentence.ordernumber }}:</strong></p>
-                {% for token in sentence.tokens.all %}
-                    <span class="token"
-                    abbr="
-                    {% if selected_markup == 'tagtext' and token.idpostag %}
-                        {{ token.idpostag.tagtext }}
-                    {% elif selected_markup == 'tagtextrussian' and token.idpostag %}
-                        {{ token.idpostag.tagtextrussian }}
-                    {% elif selected_markup == 'tagtextabbrev' and token.idpostag %}
-                        {{ token.idpostag.tagtextabbrev }}
-                    {% endif %}"
-                    >
-                        {{ token.tokentext }}           
-                    </span>
-                {% endfor %}
-            </div>
-        {% endfor %}
-    </div> -->
-
-    <div class="watch-text">
-        {% for sentence in text.sentence_set.all %}
-            <div class="sentence">
-                <p><strong class="sentence-number">{{ forloop.counter }}:</strong></p>  <!-- Используем forloop.counter для отображения индекса с 1 -->
-                {% for token in sentence.tokens.all %}
-                    <span class="token"
-                    abbr="
-                    {% if selected_markup == 'tagtext' and token.idpostag %}
-                        {{ token.idpostag.tagtext }}
-                    {% elif selected_markup == 'tagtextrussian' and token.idpostag %}
-                        {{ token.idpostag.tagtextrussian }}
-                    {% elif selected_markup == 'tagtextabbrev' and token.idpostag %}
-                        {{ token.idpostag.tagtextabbrev }}
-                    {% endif %}"
-                    >
-                        {{ token.tokentext }}           
-                    </span>
-                {% endfor %}
-            </div>
-        {% endfor %}
-    </div>
-
 
     <div class="watch-text">
         {% for sentence in text.sentence_set.all %}
@@ -74,18 +30,24 @@
                 <p><strong>{{ forloop.counter }}:</strong></p>
                 {% for token in sentence.tokens.all %}
                     <span class="token">
-                        {{ token.tokentext }}
+                        
                         {% if token.idpostag %}
                             <span class="abbr">
-                                {% if selected_markup == 'tagtext' and token.idpostag %}
+                                {% if selected_markup == 'tagtext' %}
                                     {{ token.idpostag.tagtext }}
-                                {% elif selected_markup == 'tagtextrussian' and token.idpostag %}
+                                {% elif selected_markup == 'tagtextrussian' %}
                                     {{ token.idpostag.tagtextrussian }}
-                                {% elif selected_markup == 'tagtextabbrev' and token.idpostag %}
+                                {% elif selected_markup == 'tagtextabbrev' %}
                                     {{ token.idpostag.tagtextabbrev }}
                                 {% endif %}
-                            </span>  <!-- Аббревиатура внутри токена -->
+                            </span>
+                        {% else %}
+                            <!-- Пустой символ для токенов без части речи -->
+                            <span>&nbsp;</span>
                         {% endif %}
+
+                        <span class="word">{{ token.tokentext }}</span>
+
                     </span>
                 {% endfor %}
             </div>
@@ -93,55 +55,3 @@
     </div>
 </body>
 </html>
-
-<script>
-    function positionAbbr() {
-        // Получаем все блоки с классом .watch-text
-        const watchTextElements = document.querySelectorAll('.watch-text');
-
-        watchTextElements.forEach(watchTextElement => {
-            // Для каждого предложения в .watch-text
-            const sentences = watchTextElement.querySelectorAll('.sentence');
-
-            sentences.forEach(sentence => {
-                // Для каждого токена в предложении
-                const tokens = sentence.querySelectorAll('.token');
-
-                tokens.forEach(token => {
-                    // Устанавливаем для токена position: relative, чтобы аббревиатуры позиционировались относительно него
-                    token.style.position = 'relative';
-
-                    // Получаем координаты токена на странице
-                    const rect = token.getBoundingClientRect();
-                    
-                    // Ищем элемент abbr, если он уже существует
-                    let abbrElement = token.querySelector('.abbr-value');
-
-                    // Если аббревиатура еще не была добавлена, создаем новый элемент
-                    if (!abbrElement) {
-                        abbrElement = document.createElement('div');
-                        abbrElement.classList.add('abbr-value');
-                        abbrElement.style.position = 'absolute';
-                        abbrElement.style.fontSize = '12px'; // Мелкий шрифт
-                        abbrElement.style.color = 'gray'; // Цвет текста
-                        abbrElement.style.whiteSpace = 'nowrap'; // чтобы текст не переносился
-                        abbrElement.textContent = token.getAttribute('abbr');
-                        token.appendChild(abbrElement); // Добавляем аббревиатуру в токен
-                    }
-
-                    // Позиционируем аббревиатуру точно под токеном
-                    abbrElement.style.top = rect.height + 5 + 'px'; // 5px для отступа от токена
-                    abbrElement.style.left = '0'; // Выравнивание по левому краю токена
-                });
-            });
-        });
-    }
-
-    // Вызовем функцию после загрузки страницы
-    window.onload = function() {
-        positionAbbr(); // Позиционируем аббревиатуры при загрузке страницы
-
-        // Добавим обработчик события изменения размера окна
-        window.addEventListener('resize', positionAbbr);
-    };
-</script>
