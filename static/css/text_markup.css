@@ -64,7 +64,7 @@
 
 .abbr {               
     margin: 2px;              
-    white-space: nowrap;           /* Запрещает перенос на новую строку */
+    white-space: nowrap; /* Запрещает перенос на новую строку */
     text-align: center;
     /* -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
             box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15); */
@@ -98,9 +98,20 @@
 
 #markup {
     margin: 2px; 
-    padding: 5px; 
+    padding: 8px; 
     /* -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
             box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15); */
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    border: 1px solid #0d6efd
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: 1px solid #0d6efd;
+    cursor: pointer;
+    /* -webkit-appearance: none;
+    -moz-appearance: none; */
+    /* appearance: none;   */
+    border-radius: 1px; 
+}
+
+#markup:focus {
+    outline: none;
+    border-color: #0056b3;
+    box-shadow:  0 0.125rem 0.25rem rgba(0, 123, 255, 0.5);
 }

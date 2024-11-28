@@ -12,7 +12,7 @@
 
     <div class="menu">
         <form method="get" action="">
-            <label for="markup">Выберите разметку:</label>
+            <label for="markup">Вид:</label>
             <select name="markup" id="markup" onchange="this.form.submit();">
                 <option value="tagtext" {% if selected_markup == 'tagtext' %}selected{% endif %}>Части речи (Основная)</option>
                 <option value="tagtextrussian" {% if selected_markup == 'tagtextrussian' %}selected{% endif %}>Части речи (На русском)</option>
