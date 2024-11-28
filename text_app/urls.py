@@ -4,4 +4,5 @@ from . import views
 urlpatterns = [
     # Добавляем маршрут для отображения текста
     path('show_text/', views.show_text, name='show_text'),
+    path('show_error_markup/', views.show_error_markup, name='show_error_markup')
 ]

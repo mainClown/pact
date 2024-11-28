@@ -115,3 +115,11 @@
     border-color: #0056b3;
     box-shadow:  0 0.125rem 0.25rem rgba(0, 123, 255, 0.5);
 }
+
+.error-tag {
+    display: inline-block;
+    padding: 0.2em;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+}
