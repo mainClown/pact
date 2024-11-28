@@ -22,9 +22,11 @@
         </form>
     </div>
     
-    <h1 class="text-title">{{ text.header }}</h1>
+    
 
     <div class="watch-text">
+        <h1 class="text-title">{{ text.header }}</h1>
+        
         {% for sentence in text.sentence_set.all %}
             <div class="sentence">
                 <p class="sentence-number">{{ forloop.counter }}:</p>
@@ -46,7 +48,7 @@
                             <span class="no-abbr">&nbsp;</span> 
                         {% endif %}
 
-                        <span class="word">{{ token.tokentext }}</span>
+                            <span class="word">{{ token.tokentext }}</span>
 
                     </span>
                 {% endfor %}
@@ -65,7 +67,7 @@
                 if (markupSelect.value === 'plain') {
                     abbrElements.forEach(el => el.style.display = 'none');
                 } else {
-                    abbrElements.forEach(el => el.style.display = 'inline-block');
+                    abbrElements.forEach(el => el.style.display = 'flex');
                 }
             }
 

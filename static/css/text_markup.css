@@ -32,6 +32,11 @@
     margin: 1%;
 }
 
+.watch-text h1{
+    color: #0d6efd;
+    font-size: 28px;
+}
+
 .sentence-number {
     display: inline-block;
     position: relative;
@@ -42,27 +47,28 @@
 }
 
 .sentence {
-    display: flex; /* Используем Flexbox для родителя */
-    align-items: center; /* Центрируем элементы по вертикали */
-    margin-bottom: 10px; /* Отступ между предложениями */
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
 .sentence-number {
-    margin-right: 10px; /* Отступ между номером и токенами */
-    flex-shrink: 0; /* Не позволяйте номеру сжиматься */
+    margin-right: 10px;
+    flex-shrink: 0; /* Не позволяет номеру сжиматься */
 }
 
 .tokens-container {
-    display: flex; /* Используем Flexbox для контейнера токенов */
-    flex-grow: 1; /* Позволяем контейнеру занимать все доступное пространство */
-    flex-wrap: wrap; /* Позволяем токенам переноситься по строчке */
+    display: flex; 
+    flex-grow: 1; /* Позволяет контейнеру занимать все доступное пространство */
+    flex-wrap: wrap; /* Позволяет токенам переноситься по строчке */
 }
 
 .token {
     display: flex;               
-    flex-direction: column;      
-    align-items: center;  
-    justify-content: center;        
+    flex-direction: column;   
+    align-items: stretch;  
+    justify-content: center; 
+    /* flex-wrap: wrap; */
     padding: 5px;                
     margin-right: 4px;            
     font-size: 14px;             
@@ -71,13 +77,17 @@
 }
 
 .abbr {               
-    margin-bottom: 2px;              
+    margin: 2px;              
     white-space: nowrap;           /* Запрещаем перенос на новую строку */
     text-align: center;
-    -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
-    padding: 3px;
-    display: block;
+    /* -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15); */
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    padding: 5px;
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    width: 100%;
 }
 
 .no-abbr {               
@@ -87,11 +97,24 @@
 
 .word {
     margin: 2px; 
-    padding: 6px;              
+    padding: 5px;              
     white-space: nowrap;
     text-align: center;
-    -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+    /* -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15); */
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 
-    display: block;
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    width: 100%;
+}
+
+#markup {
+    margin: 2px; 
+    padding: 5px; 
+    /* -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15); */
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: 1px solid #0d6efd
 }
