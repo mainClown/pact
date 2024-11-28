@@ -22,11 +22,13 @@
         </form>
     </div>
     
-    
+    <div class="text-header">
+        <h1 class="text-title">{{ text.header }}</h1>
+    </div>
 
     <div class="watch-text">
-        <h1 class="text-title">{{ text.header }}</h1>
         
+
         {% for sentence in text.sentence_set.all %}
             <div class="sentence">
                 <p class="sentence-number">{{ forloop.counter }}:</p>
