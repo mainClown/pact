@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from db_editor.models import Text, Token, PosTag, Error, ErrorToken, ErrorTag
 
-def show_text(request, text_id=4112):
+def show_text(request, text_id=None):
     # Получаем текст по заданному ID или первый текст, если ID не указан
     if text_id is not None:
         text = get_object_or_404(Text, idtext=text_id)

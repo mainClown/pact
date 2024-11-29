@@ -37,6 +37,8 @@
                             <span class="error-tag" style="background-color: {{ token.error_color }};">
                                 {{ token.error_tag }}
                             </span>
+                        {% else %}
+                            <span class="no-abbr">&nbsp;</span> 
                         {% endif %}
                         <span class="word">{{ token.token }}</span>
                     </span>
