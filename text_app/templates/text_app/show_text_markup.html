@@ -10,26 +10,7 @@
 </head>
 <body>
 
-    <div class="menu">
-        <form method="get" action="">
-            <label for="markup">Вид:</label>
-            <select name="markup" id="markup">
-                <option value="tagtext" {% if selected_pos_markup == 'tagtext' %}selected{% endif %}>Части речи (Основная)</option>
-                <option value="tagtextrussian" {% if selected_pos_markup == 'tagtextrussian' %}selected{% endif %}>Части речи (На русском)</option>
-                <option value="tagtextabbrev" {% if selected_pos_markup == 'tagtextabbrev' %}selected{% endif %}>Аббревиатуры частей речи</option>
-                <option value="error" {% if selected_error_markup == 'error' %}selected{% endif %}>Ошибки (Основная)</option>
-                <option value="error_russian" {% if selected_error_markup == 'error_russian' %}selected{% endif %}>Ошибки (На русском)</option>
-                <option value="error_abbrev" {% if selected_error_markup == 'error_abbrev' %}selected{% endif %}>Аббревиатуры ошибок</option>
-                <option value="plain" {% if selected_pos_markup == 'plain' %}selected{% endif %}>Без разметки</option>
-            </select>
-        </form>
-    </div>
-
-    <div class="text-header">
-        <h1 class="text-title">{{ text.header }}</h1>
-    </div>
-
-    <!-- Всплывающее окно для ошибок -->
+    <!-- Всплывающее окно с информацией об ошибке -->
     <div class="error-popup" id="error-popup">
         <span class="close-btn" id="close-popup">X</span>
         <h3>
@@ -41,6 +22,35 @@
         <p><strong>Комментарий:</strong> <span id="error-comment"></span></p>
     </div>
 
+    <div class="menu">
+        <!-- Форма для выбора разметки -->
+        <form method="get" action="" onchange="this.submit();">
+            <label for="markup">Вид:</label>
+            <select name="markup" id="markup">
+                <option value="tagtext" {% if selected_markup == 'tagtext' %}selected{% endif %}>Части речи (Основная)</option>
+                <option value="tagtextrussian" {% if selected_markup == 'tagtextrussian' %}selected{% endif %}>Части речи (На русском)</option>
+                <option value="tagtextabbrev" {% if selected_markup == 'tagtextabbrev' %}selected{% endif %}>Аббревиатуры частей речи</option>
+                <option value="error" {% if selected_markup == 'error' %}selected{% endif %}>Ошибки (Основная)</option>
+                <option value="error_russian" {% if selected_markup == 'error_russian' %}selected{% endif %}>Ошибки (На русском)</option>
+                <option value="error_abbrev" {% if selected_markup == 'error_abbrev' %}selected{% endif %}>Аббревиатуры ошибок</option>
+                <option value="plain" {% if selected_markup == 'plain' %}selected{% endif %}>Без разметки</option>
+            </select>
+        </form>
+    </div>
+
+    <div class="text-header">
+        <h1 class="text-title">{{ text.header }}</h1>
+        <div class="text-info">
+            <p><strong>Автор:</strong> {{ text.idstudent.iduser.lastname }} {{ text.idstudent.iduser.firstname }}</p>
+            <p><strong>Группа:</strong> {{ text.idstudent.idgroup.groupname }}</p>
+            <p><strong>Учебный год:</strong> {{ text.idstudent.idgroup.idayear.title }}</p>
+            <p><strong>Дата создания текста:</strong> {{ text.createdate }}</p>
+            <p><strong>Место написания текста:</strong> {{ text.idwriteplace.writeplacename }}</p>
+            <p><strong>Инструмент написания:</strong> {{ text.idwritetool.writetoolname }}</p>
+            <p><strong>Тип текста:</strong> {{ text.idtexttype.texttypename }}</p>
+        </div>
+    </div>
+    
     <div class="watch-text">
         {% for sentence in sentence_data %}
             <div class="sentence">
@@ -57,27 +67,37 @@
                                 data-error-color="{{ token.error_color }}"
                             {% endif %}>
                             
-                            {% if token.error_tag %}
-                                <span class="error-tag" style="background-color: {{ token.error_color }};">
-                                    {{ token.error_tag }}
-                                </span>
+                            {% if selected_markup == 'plain' %}
+                                <span class="word">{{ token.token }}</span>
                             {% else %}
-                                <span class="no-abbr">&nbsp;</span> 
-                            {% endif %}
-                            
-                            {% if token.pos_markups %}
-                            <span class="abbr" style="background-color: {{ token.pos_markups.tagcolor }};"
-                                tagtext="{{ token.pos_markups.tagtext }}"
-                                tagtextrussian="{{ token.pos_markups.tagtextrussian }}"
-                                tagtextabbrev="{{ token.pos_markups.tagtextabbrev }}"
-                                >
-                            </span>
-                            {% else %}
-                                <span class="no-abbr">&nbsp;</span> 
-                            {% endif %}
-                            
-                            <span class="word">{{ token.token }}</span>
+                                {% if selected_markup == 'tagtext' or selected_markup == 'tagtextrussian' or selected_markup == 'tagtextabbrev' %}
+                                    {% if token.pos_tag %}
+                                        <span class="abbr" style="background-color: {{ token.pos_tag_color }};">
+                                            {% if selected_markup == 'tagtext' %}
+                                                {{ token.pos_tag }}
+                                            {% elif selected_markup == 'tagtextrussian' %}
+                                                {{ token.pos_tag_russian }}
+                                            {% elif selected_markup == 'tagtextabbrev' %}
+                                                {{ token.pos_tag_abbrev }}
+                                            {% endif %}
+                                        </span>
+                                    {% endif %}
+                                {% elif selected_markup == 'error' or selected_markup == 'error_russian' or selected_markup == 'error_abbrev' %}
+                                    {% if token.error_tag %}
+                                        <span class="error-tag" style="background-color: {{ token.error_color }};">
+                                            {% if selected_markup == 'error' %}
+                                                {{ token.error_tag }}
+                                            {% elif selected_markup == 'error_russian' %}
+                                                {{ token.error_tag_russian }}
+                                            {% elif selected_markup == 'error_abbrev' %}
+                                                {{ token.error_tag_abbrev }}
+                                            {% endif %}
+                                        </span>
+                                    {% endif %}
+                                {% endif %}
 
+                                <span class="word">{{ token.token }}</span>
+                            {% endif %}
                         </span>
                     {% endfor %}
                 </div>
@@ -86,81 +106,85 @@
     </div>
 
     <script>
-
-        document.querySelectorAll('.token').forEach(token => {
-            token.addEventListener('click', function() {
-                var errorTag = this.getAttribute('data-error-tag');
-                var errorTagAbbrev = this.getAttribute('data-error-tag-abbrev');
-                var errorLevel = this.getAttribute('data-error-level');
-                var errorCorrect = this.getAttribute('data-error-correct');
-                var errorComment = this.getAttribute('data-error-comment');
-                var errorColor = this.getAttribute('data-error-color');
-
-                if (errorTag || errorTagAbbrev) {
-                    document.getElementById('error-popup').style.display = 'block';
-                    document.getElementById('error-tag').textContent = errorTag || errorTagAbbrev;
-                    document.getElementById('error-tag-abbrev').textContent = errorTagAbbrev || '';
-                    document.getElementById('error-level').textContent = errorLevel || 'Не указано';
-                    document.getElementById('error-correct').textContent = errorCorrect || 'Не указано';
-                    document.getElementById('error-comment').textContent = errorComment || 'Не указано';
-                    document.getElementById('error-popup').style.backgroundColor = errorColor || '#fff';
-                }
-            });
-        });
-
-        document.getElementById('close-popup').addEventListener('click', function() {
-            document.getElementById('error-popup').style.display = 'none';
-        });
-
         document.addEventListener('DOMContentLoaded', function() {
-        const markupSelect = document.getElementById('markup');
-
-        // Функция для отображения разметки
-        function displayMarkup() {
-            const abbrElements = document.querySelectorAll('.abbr');
-            const noAbbrElements = document.querySelectorAll('.no-abbr');
-
-            abbrElements.forEach(el => {
-                // Получаем значение атрибута tagtext
-                const tag = el.getAttribute(markupSelect);
-
-                // Если выбрано значение 'tagtext', отображаем текст
-                if (markupSelect.value === tag && tagtext) {
-                    el.textContent = tagtext; // Устанавливаем текст из атрибута
-                    el.style.display = 'inline'; // Убедимся, что элемент виден
-                } else {
-                    // В противном случае скрываем элемент
-                    el.style.display = 'none';
-                    el.textContent = ""; // Очищаем текст, если разметка не tagtext
+            const markupSelect = document.getElementById('markup');
+            const popup = document.getElementById('error-popup');
+            const closePopupBtn = document.getElementById('close-popup');
+    
+            // Функция для отображения всплывающего окна с информацией об ошибке
+            function showPopup(tokenElement) {
+                const errorTag = tokenElement.dataset.errorTag;
+                const errorTagAbbrev = tokenElement.dataset.errorTagAbbrev;
+                const errorLevel = tokenElement.dataset.errorLevel;
+                const errorCorrect = tokenElement.dataset.errorCorrect;
+                const errorComment = tokenElement.dataset.errorComment;
+    
+                // Проверяем, есть ли ошибка у токена
+                if (!errorTag) {
+                    return; // Если ошибки нет, ничего не делаем
                 }
+    
+                document.getElementById('error-tag').textContent = errorTag || 'Не указано';
+                document.getElementById('error-tag-abbrev').textContent = errorTagAbbrev ? `(${errorTagAbbrev})` : '';
+                document.getElementById('error-level').textContent = errorLevel || 'Не указано';
+                document.getElementById('error-correct').textContent = errorCorrect || 'Не указано';
+                document.getElementById('error-comment').textContent = errorComment || 'Не указано';
+    
+                // Получаем позицию токена на странице
+                const tokenRect = tokenElement.getBoundingClientRect();
+
+                var rect = tokenElement.getBoundingClientRect();
+                var offsetLeft = rect.left + window.scrollX;
+                var offsetTop = rect.top + window.scrollY;
+                var height = rect.height;
+                var width = rect.width;
+                var left = offsetLeft ;
+                var top = offsetTop - height - 6;
+                
+                // Устанавливаем ширину всплывающего окна равной ширине токена
+                popup.style.width = `${tokenRect.width}px`;
+                popup.style.left = left + 'px';
+                popup.style.top = top + 'px';
+
+                popup.style.display = 'block';
+                popup.classList.add('show'); // Добавляем класс для анимации
+            }
+
+            // Закрытие окна с анимацией
+            closePopupBtn.addEventListener('click', function() {
+                const popup = document.getElementById('error-popup');
+                popup.classList.remove('show'); // Убираем класс для анимации исчезновения
+                setTimeout(() => {
+                    popup.style.display = 'none'; // Скрываем окно после анимации
+                }, 300); // Задержка, соответствующая длительности перехода
             });
-        }
-
-        // Вызвать функцию при загрузке страницы
-        displayMarkup();
-
-        // Добавить слушатель для изменения значения в селекте
-        markupSelect.addEventListener('change', displayMarkup);
-    });
-
-        // document.addEventListener('DOMContentLoaded', function() {
-        //     const markupSelect = document.getElementById('markup');
-
-        //     function toggleAbbrVisibility() {
-        //         const abbrElements = document.querySelectorAll('.abbr');
-        //         if (markupSelect.value === 'plain') {
-        //             abbrElements.forEach(el => el.style.display = 'none');
-        //         } else {
-        //             abbrElements.forEach(el => el.style.display = 'flex');
-        //         }
-        //     }
-
-        //     // Вызвать функцию при загрузке страницы
-        //     toggleAbbrVisibility();
-
-        //     // Добавить слушатель для изменения значения в селекте
-        //     markupSelect.addEventListener('change', toggleAbbrVisibility);
-        // });
+    
+            // Слушаем клик по токенам
+            document.querySelectorAll('.token').forEach(function(tokenElement) {
+                tokenElement.addEventListener('click', function() {
+                    // Показываем всплывающее окно с информацией об ошибке, если она есть
+                    if (markupSelect.value === 'error' || markupSelect.value === 'error_russian' || markupSelect.value === 'error_abbrev') {
+                        showPopup(tokenElement);
+                    }
+                });
+            });
+    
+            // Функция для переключения видимости тегов ошибок
+            function toggleErrorTagVisibility() {
+                const errorTagElements = document.querySelectorAll('.error-tag');
+                if (markupSelect.value === 'plain') {
+                    errorTagElements.forEach(el => el.style.display = 'none');
+                } else {
+                    errorTagElements.forEach(el => el.style.display = 'flex');
+                }
+            }
+    
+            // Вызвать функцию при загрузке страницы
+            toggleErrorTagVisibility();
+    
+            // Добавить слушатель для изменения значения в селекте
+            markupSelect.addEventListener('change', toggleErrorTagVisibility);
+        });
     </script>
 
 </body>

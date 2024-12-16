@@ -18,10 +18,12 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
+from text_app.views import home_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('authorization/', include('authorization.urls')),
     path('student_cabinet/', include('student_cabinet.urls')),
     path('text/', include('text_app.urls')),
+    path('', home_view, name='home'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
