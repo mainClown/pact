@@ -11,7 +11,6 @@
 <body>
 
     <div class="menu">
-        <!-- Форма для выбора разметки частей речи -->
         <form method="get" action="">
             <label for="markup">Вид:</label>
             <select name="markup" id="markup">
@@ -66,11 +65,11 @@
                                 <span class="no-abbr">&nbsp;</span> 
                             {% endif %}
                             
-                            {% if token.idpostag %}
-                            <span class="abbr" style="background-color: {{ token.idpostag.tagcolor }};"
-                                tagtext="{{ token.idpostag.tagtext }}"
-                                tagtextrussian="{{ token.idpostag.tagtextrussian }}"
-                                tagtextabbrev="{{ token.idpostag.tagtextabbrev }}"
+                            {% if token.pos_markups %}
+                            <span class="abbr" style="background-color: {{ token.pos_markups.tagcolor }};"
+                                tagtext="{{ token.pos_markups.tagtext }}"
+                                tagtextrussian="{{ token.pos_markups.tagtextrussian }}"
+                                tagtextabbrev="{{ token.pos_markups.tagtextabbrev }}"
                                 >
                             </span>
                             {% else %}
