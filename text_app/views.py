@@ -119,11 +119,46 @@ def show_text_markup(request, text_id=4112):
     selected_pos_markup = request.GET.get('pos_markup')
     selected_error_markup = request.GET.get('error_markup')
 
-    # Собираем данные для отображения
+    # Все разметки частей речи
+    pos_markups = {
+        'tagtext': [],
+        'tagtextrussian': [],
+        'tagtextabbrev': [],
+        'plain': []
+    }
+
+    # Все разметки ошибок
+    error_markups = {
+        'error': [],
+        'error_russian': [],
+        'error_abbrev': [],
+        'plain': []
+    }
+
+    # Собираем все возможные разметки 
+    for token in tokens:
+        pos_tag = token.idpostag
+        if pos_tag:
+            pos_markups['tagtext'].append(pos_tag.tagtext)
+            pos_markups['tagtextrussian'].append(pos_tag.tagtextrussian)
+            pos_markups['tagtextabbrev'].append(pos_tag.tagtextabbrev)
+
+        error_tag = error_tag_abbrev = error_color = error_level = error_correct = error_comment = None
+        error_token = ErrorToken.objects.filter(idtoken=token.idtoken).first()
+        if error_token:
+            error = Error.objects.filter(iderror=error_token.iderror.iderror).first()
+            if error:
+                error_tag_obj = ErrorTag.objects.filter(iderrortag=error.iderrortag.iderrortag).first()
+                if error_tag_obj:
+                    error_markups['error'].append(error_tag_obj.tagtext)
+                    error_markups['error_russian'].append(error_tag_obj.tagtextrussian)
+                    error_markups['error_abbrev'].append(error_tag_obj.tagtextabbrev)
+
     sentence_data = []
     current_sentence = None
     current_tokens = []
 
+    # Формируем данные для отображения
     for token in tokens:
         # Проверяем, началась ли новая группа (предложение)
         if current_sentence != token.idsentence.idsentence:
@@ -140,59 +175,31 @@ def show_text_markup(request, text_id=4112):
         token_info = {'token': token.tokentext}
 
         # Разметка частей речи
-        if selected_pos_markup != 'plain':
-            pos_tag = token.idpostag
-            if pos_tag:
-                if selected_pos_markup == 'tagtextrussian':
-                    token_info['pos'] = pos_tag.tagtextrussian
-                elif selected_pos_markup == 'tagtextabbrev':
-                    token_info['pos'] = pos_tag.tagtextabbrev
-                else:
-                    token_info['pos'] = pos_tag.tagtext
-                token_info['tagcolor'] = pos_tag.tagcolor
-            else:
-                token_info['pos'] = None
-                token_info['tagcolor'] = None
-        else:
-            token_info['pos'] = None
-            token_info['tagcolor'] = None
+        pos_tag = token.idpostag
+        if pos_tag:
+            token_info['pos_tag'] = {
+                'tagtext': pos_tag.tagtext,
+                'tagtextrussian': pos_tag.tagtextrussian,
+                'tagtextabbrev': pos_tag.tagtextabbrev,
+            }
 
         # Разметка ошибок
-        if selected_error_markup != 'plain':
-            error_tag = error_tag_abbrev = error_color = error_level = error_correct = error_comment = None
-            error_token = ErrorToken.objects.filter(idtoken=token.idtoken).first()
-            if error_token:
-                error = Error.objects.filter(iderror=error_token.iderror.iderror).first()
-                if error:
-                    error_tag_obj = ErrorTag.objects.filter(iderrortag=error.iderrortag.iderrortag).first()
-                    if error_tag_obj:
-                        if selected_error_markup == 'error_russian':
-                            error_tag = error_tag_obj.tagtextrussian
-                        elif selected_error_markup == 'error_abbrev':
-                            error_tag = error_tag_obj.tagtextabbrev
-                        else:
-                            error_tag = error_tag_obj.tagtext
-                        error_tag_abbrev = error_tag_obj.tagtextabbrev
-                        error_color = error_tag_obj.tagcolor
-                        error_level = error.iderrorlevel.errorlevelname if error.iderrorlevel else 'Не указано'
-                        error_correct = error.correct if error.correct else 'Не указано'
-                        error_comment = error.comment if error.comment else 'Не указано'
-
-            token_info.update({
-                'error_tag': error_tag,
-                'error_tag_abbrev': error_tag_abbrev,
-                'error_color': error_color,
-                'error_level': error_level,
-                'error_correct': error_correct,
-                'error_comment': error_comment,
-            })
-        else:
-            token_info['error_tag'] = None
-            token_info['error_tag_abbrev'] = None
-            token_info['error_color'] = None
-            token_info['error_level'] = None
-            token_info['error_correct'] = None
-            token_info['error_comment'] = None
+        error_tag = error_tag_abbrev = error_color = error_level = error_correct = error_comment = None
+        error_token = ErrorToken.objects.filter(idtoken=token.idtoken).first()
+        if error_token:
+            error = Error.objects.filter(iderror=error_token.iderror.iderror).first()
+            if error:
+                error_tag_obj = ErrorTag.objects.filter(iderrortag=error.iderrortag.iderrortag).first()
+                if error_tag_obj:
+                    token_info['error_tag'] = {
+                        'error': error_tag_obj.tagtext,
+                        'error_russian': error_tag_obj.tagtextrussian,
+                        'error_abbrev': error_tag_obj.tagtextabbrev,
+                    }
+                    token_info['error_color'] = error_tag_obj.tagcolor
+                    token_info['error_level'] = error.iderrorlevel.errorlevelname if error.iderrorlevel else 'Не указано'
+                    token_info['error_correct'] = error.correct if error.correct else 'Не указано'
+                    token_info['error_comment'] = error.comment if error.comment else 'Не указано'
 
         # Добавляем токен в текущие данные предложения
         current_tokens.append(token_info)
@@ -209,6 +216,9 @@ def show_text_markup(request, text_id=4112):
         'sentence_data': sentence_data,
         'selected_pos_markup': selected_pos_markup,
         'selected_error_markup': selected_error_markup,
+        'pos_markups': pos_markups,  # Все возможные разметки частей речи
+        'error_markups': error_markups,  # Все возможные разметки ошибок
     }
 
     return render(request, 'show_text_markup.html', context)
+
