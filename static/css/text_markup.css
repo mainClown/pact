@@ -135,3 +135,56 @@
     justify-content: center;
     width: 100%;
 }
+
+/* Стили для модального окна с информацией об ошибке */
+
+.error-popup {
+    display: none;
+    position: absolute;
+    /* background-color: white;
+    border: 1px solid #ccc; */
+    background-color: rgba(0, 0, 0, 0.825);
+    color: white;
+    font-size: 14px;
+    padding: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+.error-popup .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.error-popup {
+    display: none; /* По умолчанию скрыто */
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.825);
+    color: white;
+    font-size: 14px;
+    padding: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+
+    display: flex;
+    flex-direction: column;
+
+    /* Для плавного появления и исчезновения */
+    opacity: 0; /* Начальная непрозрачность */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(-10px); /* Начальное смещение вверх */
+}
+
+.error-popup.show {
+    display: flex; /* Делаем видимым для переходов */
+    opacity: 1; /* Конечная непрозрачность */
+    transform: translateY(0); /* Сбрасываем смещение */
+}
+
+.error-popup .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+}

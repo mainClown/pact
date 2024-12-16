@@ -47,6 +47,7 @@ def show_text(request, text_id=None):
 
     return render(request, 'show_text.html', context)
 
+# 4112
 def show_error_markup(request, text_id=4112): 
     # Получаем текст по заданному ID или первый текст, если ID не указан
     if text_id is not None:
@@ -103,5 +104,3 @@ def show_error_markup(request, text_id=4112):
     }
 
     return render(request, 'show_error_markup.html', context)
-
-

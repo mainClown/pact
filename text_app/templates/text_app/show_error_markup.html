@@ -7,24 +7,6 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/base.css' %}" />
     <link rel="stylesheet" href="{% static 'css/text_markup.css' %}" />
-    <style>
-        /* Стили для окна ошибки */
-        .error-popup {
-            display: none;
-            position: absolute;
-            background-color: white;
-            border: 1px solid #ccc;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-        }
-        .error-popup .close-btn {
-            position: absolute;
-            top: 5px;
-            right: 10px;
-            cursor: pointer;
-        }
-    </style>
 </head>
 <body>
 
@@ -113,14 +95,55 @@
                 document.getElementById('error-comment').textContent = errorComment || 'Не указано';
     
                 // Получаем позицию токена на странице
+                // const tokenRect = tokenElement.getBoundingClientRect();
+
+                // var rect = tokenElement.getBoundingClientRect();
+                // var offsetLeft = rect.left + window.scrollX;
+                // var offsetTop = rect.top + window.scrollY;
+                // var height = rect.height;
+                // var width = rect.width;
+                // var left = offsetLeft ;
+                // var top = offsetTop - height - 6;
+                // Устанавливаем ширину всплывающего окна равной ширине токена
+               // popup.style.width = `${tokenRect.width}px`;
+                // popup.style.left = left + 'px';
+                // popup.style.top = top + 'px';
+
                 const tokenRect = tokenElement.getBoundingClientRect();
+                const popup = document.getElementById('error-popup');
+
+                // Устанавливаем ширину всплывающего окна равной ширине токена
+                popup.style.width = `${tokenRect.width}px`;
+
+                const viewportHeight = window.innerHeight; // Высота окна просмотра
+                let top = tokenRect.top - popup.offsetHeight - 6; // Позиция над токеном
+
+                // Проверяем, вмещается ли всплывающее окно над токеном
+                if (top < 0 || (tokenRect.top - popup.offsetHeight) < 0) {
+                    top = tokenRect.bottom + 6; // Если нет, позиционируем под токеном
+                }
+
+                popup.style.left = `${tokenRect.left}px`;
+                popup.style.top = `${top}px`;
+
+                
     
                 // Позиционируем всплывающее окно над токеном
-                popup.style.left = `${tokenRect.left}px`;
-                popup.style.top = `${tokenRect.top - popup.offsetHeight - 10}px`; // Сдвигаем окно вверх
+               // popup.style.left = `${tokenRect.left}px`;
+               // popup.style.top = `${tokenRect.top - popup.offsetHeight - 10}px`; // Сдвигаем окно вверх
     
                 popup.style.display = 'block';
+                popup.classList.add('show'); // Добавляем класс для анимации
             }
+
+            // Закрытие окна с анимацией
+            closePopupBtn.addEventListener('click', function() {
+                const popup = document.getElementById('error-popup');
+                popup.classList.remove('show'); // Убираем класс для анимации исчезновения
+                setTimeout(() => {
+                    popup.style.display = 'none'; // Скрываем окно после анимации
+                }, 300); // Задержка, соответствующая длительности перехода
+            });
     
             // Закрыть всплывающее окно
             closePopupBtn.addEventListener('click', function() {
