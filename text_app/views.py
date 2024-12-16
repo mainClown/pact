@@ -104,8 +104,6 @@ def show_error_markup(request, text_id=4112):
     }
 
     return render(request, 'show_error_markup.html', context)
-<<<<<<< Updated upstream
-=======
 
 def show_text_markup(request, text_id=4112):
     # Получаем текст по заданному ID или первый текст, если ID не указан
@@ -118,8 +116,8 @@ def show_text_markup(request, text_id=4112):
     tokens = Token.objects.filter(idsentence__idtext=text.idtext).select_related('idsentence')
 
     # Параметры для выбора разметки
-    selected_pos_markup = request.GET.get('pos_markup', 'plain')
-    selected_error_markup = request.GET.get('error_markup', 'plain')
+    selected_pos_markup = request.GET.get('pos_markup')
+    selected_error_markup = request.GET.get('error_markup')
 
     # Собираем данные для отображения
     sentence_data = []
@@ -214,4 +212,3 @@ def show_text_markup(request, text_id=4112):
     }
 
     return render(request, 'show_text_markup.html', context)
->>>>>>> Stashed changes

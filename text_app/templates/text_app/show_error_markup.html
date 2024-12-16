@@ -95,36 +95,36 @@
                 document.getElementById('error-comment').textContent = errorComment || 'Не указано';
     
                 // Получаем позицию токена на странице
-                // const tokenRect = tokenElement.getBoundingClientRect();
-
-                // var rect = tokenElement.getBoundingClientRect();
-                // var offsetLeft = rect.left + window.scrollX;
-                // var offsetTop = rect.top + window.scrollY;
-                // var height = rect.height;
-                // var width = rect.width;
-                // var left = offsetLeft ;
-                // var top = offsetTop - height - 6;
-                // Устанавливаем ширину всплывающего окна равной ширине токена
-               // popup.style.width = `${tokenRect.width}px`;
-                // popup.style.left = left + 'px';
-                // popup.style.top = top + 'px';
-
                 const tokenRect = tokenElement.getBoundingClientRect();
-                const popup = document.getElementById('error-popup');
 
-                // Устанавливаем ширину всплывающего окна равной ширине токена
+                var rect = tokenElement.getBoundingClientRect();
+                var offsetLeft = rect.left + window.scrollX;
+                var offsetTop = rect.top + window.scrollY;
+                var height = rect.height;
+                var width = rect.width;
+                var left = offsetLeft ;
+                var top = offsetTop - height - 6;
+               // Устанавливаем ширину всплывающего окна равной ширине токена
                 popup.style.width = `${tokenRect.width}px`;
+                popup.style.left = left + 'px';
+                popup.style.top = top + 'px';
 
-                const viewportHeight = window.innerHeight; // Высота окна просмотра
-                let top = tokenRect.top - popup.offsetHeight - 6; // Позиция над токеном
+                // const tokenRect = tokenElement.getBoundingClientRect();
+                // const popup = document.getElementById('error-popup');
 
-                // Проверяем, вмещается ли всплывающее окно над токеном
-                if (top < 0 || (tokenRect.top - popup.offsetHeight) < 0) {
-                    top = tokenRect.bottom + 6; // Если нет, позиционируем под токеном
-                }
+                // // Устанавливаем ширину всплывающего окна равной ширине токена
+                // popup.style.width = `${tokenRect.width}px`;
 
-                popup.style.left = `${tokenRect.left}px`;
-                popup.style.top = `${top}px`;
+                // const viewportHeight = window.innerHeight; // Высота окна просмотра
+                // let top = tokenRect.top - popup.offsetHeight - 6; // Позиция над токеном
+
+                // // Проверяем, вмещается ли всплывающее окно над токеном
+                // if (top < 0 || (tokenRect.top - popup.offsetHeight) < 0) {
+                //     top = tokenRect.bottom + 6; // Если нет, позиционируем под токеном
+                // }
+
+                // popup.style.left = `${tokenRect.left}px`;
+                // popup.style.top = `${top}px`;
 
                 
     
