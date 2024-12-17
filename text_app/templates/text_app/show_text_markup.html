@@ -69,7 +69,11 @@
                             {% endif %}>
                             
                             {% if selected_markup == 'plain' %}
-                                <span class="word">{{ token.token }}</span>
+                                {% if token.token == '-EMPTY-' %}
+                                    <span class="word">&loz;</span>
+                                {% else %}
+                                    <span class="word">{{ token.token }}</span>
+                                {% endif %}
                             {% else %}
                                 {% if selected_markup == 'tagtext' or selected_markup == 'tagtextrussian' or selected_markup == 'tagtextabbrev' %}
                                     {% if token.pos_tag %}
@@ -106,8 +110,6 @@
                                 {% else %}
                                     <span class="word">{{ token.token }}</span>
                                 {% endif %}
-
-
                             {% endif %}
                         </span>
                     {% endfor %}
@@ -136,7 +138,7 @@
         });
     });
 
-    
+
         document.addEventListener('DOMContentLoaded', function() {
             const markupSelect = document.getElementById('markup');
             const popup = document.getElementById('error-popup');
