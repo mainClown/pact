@@ -40,7 +40,8 @@
 
     <div class="text-header">
         <h1 class="text-title">{{ text.header }}</h1>
-        <div class="text-info">
+        <button class="show-text-info" data-visible="false">&plus;</button>
+        <div class="text-info" style="display: none;">
             <p><strong>Автор:</strong> {{ text.idstudent.iduser.lastname }} {{ text.idstudent.iduser.firstname }}</p>
             <p><strong>Группа:</strong> {{ text.idstudent.idgroup.groupname }}</p>
             <p><strong>Учебный год:</strong> {{ text.idstudent.idgroup.idayear.title }}</p>
@@ -81,6 +82,8 @@
                                                 {{ token.pos_tag_abbrev }}
                                             {% endif %}
                                         </span>
+                                    {% else %}
+                                        <span class="no-abbr">&nbsp;</span>
                                     {% endif %}
                                 {% elif selected_markup == 'error' or selected_markup == 'error_russian' or selected_markup == 'error_abbrev' %}
                                     {% if token.error_tag %}
@@ -93,10 +96,18 @@
                                                 {{ token.error_tag_abbrev }}
                                             {% endif %}
                                         </span>
+                                    {% else %}
+                                        <span class="no-err">&nbsp;</span>
                                     {% endif %}
                                 {% endif %}
 
-                                <span class="word">{{ token.token }}</span>
+                                {% if token.token == '-EMPTY-' %}
+                                    <span class="word">&loz;</span>
+                                {% else %}
+                                    <span class="word">{{ token.token }}</span>
+                                {% endif %}
+
+
                             {% endif %}
                         </span>
                     {% endfor %}
@@ -106,6 +117,26 @@
     </div>
 
     <script>
+        // Отображение или скрытие информации о тексте
+        document.addEventListener("DOMContentLoaded", function () {
+        const button = document.querySelector('.show-text-info');
+        const textInfo = document.querySelector('.text-info');
+
+        button.addEventListener('click', function () {
+            const isVisible = button.getAttribute('data-visible') === 'true';
+            if (isVisible) {
+                textInfo.style.display = 'none';
+                button.innerHTML = '&plus;';
+                button.setAttribute('data-visible', 'false');
+            } else {
+                textInfo.style.display = 'block';
+                button.innerHTML = '&minus;';
+                button.setAttribute('data-visible', 'true');
+            }
+        });
+    });
+
+    
         document.addEventListener('DOMContentLoaded', function() {
             const markupSelect = document.getElementById('markup');
             const popup = document.getElementById('error-popup');
@@ -131,6 +162,22 @@
                 document.getElementById('error-comment').textContent = errorComment || 'Не указано';
     
                 // Получаем позицию токена на странице
+                // const tokenRect = tokenElement.getBoundingClientRect();
+
+                // var rect = tokenElement.getBoundingClientRect();
+                // var offsetLeft = rect.left + window.scrollX;
+                // var offsetTop = rect.top + window.scrollY;
+                // var height = rect.height;
+                // var width = rect.width;
+                // var left = offsetLeft ;
+                // var top = offsetTop - height - 6;
+                
+                // // Устанавливаем ширину всплывающего окна равной ширине токена
+                // popup.style.width = `${tokenRect.width}px`;
+                // popup.style.left = left + 'px';
+                // popup.style.top = top + 'px';
+
+                // Получаем позицию токена на странице
                 const tokenRect = tokenElement.getBoundingClientRect();
 
                 var rect = tokenElement.getBoundingClientRect();
@@ -138,11 +185,10 @@
                 var offsetTop = rect.top + window.scrollY;
                 var height = rect.height;
                 var width = rect.width;
-                var left = offsetLeft ;
+                var left = offsetLeft;
                 var top = offsetTop - height - 6;
-                
-                // Устанавливаем ширину всплывающего окна равной ширине токена
-                popup.style.width = `${tokenRect.width}px`;
+               // Устанавливаем ширину всплывающего окна равной ширине токена
+                // popup.style.width = `${tokenRect.width}px`;
                 popup.style.left = left + 'px';
                 popup.style.top = top + 'px';
 
@@ -172,10 +218,13 @@
             // Функция для переключения видимости тегов ошибок
             function toggleErrorTagVisibility() {
                 const errorTagElements = document.querySelectorAll('.error-tag');
+                const noErrorTagElements = document.querySelectorAll('.no-err');
                 if (markupSelect.value === 'plain') {
                     errorTagElements.forEach(el => el.style.display = 'none');
+                    noErrorTagElements.forEach(el => el.style.display = 'none');
                 } else {
                     errorTagElements.forEach(el => el.style.display = 'flex');
+                    noErrorTagElements.forEach(el => el.style.display = 'flex');
                 }
             }
     
